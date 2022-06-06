@@ -1,9 +1,21 @@
 import type { NextPage } from 'next'
+import useSWR from 'swr'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
+const fetcher = (url: String) => fetch(url.toString()).then((res) => res.json())
+
 const Home: NextPage = () => {
+  
+const { data, error } = useSWR('/api/hello', fetcher)
+
+  if (error) return <div>Failed to load</div>
+  if (!data) return <div>Loading...</div>
+
+  console.log("TEST", data)
+    
+
   return (
     <div className={styles.container}>
       <Head>
@@ -13,7 +25,12 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
+      {/* <ul>
+      {data.map((item: String, i) => (
+        <p key={i}>{item}</p>
+      ))}
+    </ul> */}
+        {/* <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
@@ -50,7 +67,7 @@ const Home: NextPage = () => {
               Instantly deploy your Next.js site to a public URL with Vercel.
             </p>
           </a>
-        </div>
+        </div> */}
       </main>
 
       <footer className={styles.footer}>
