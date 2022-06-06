@@ -1,5 +1,6 @@
 import type { NextPage } from 'next'
 import useSWR from 'swr'
+import { deFormat } from 'friendly-numbers';
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 
@@ -43,7 +44,7 @@ const { data, error } = useSWR('/api/influencers', fetcher)
    }
     
    const categoriesObj = groupByCategory(data.data)
-    // console.log("TEST categoriesObj", categoriesObj)
+    console.log("TEST deFormat('12.9K')", deFormat('12.9K'), deFormat('12.9M'))
 
 
   //  const sortByFollowers = (arr:string[]) => {
@@ -56,8 +57,13 @@ const { data, error } = useSWR('/api/influencers', fetcher)
   //   }
 
   const topByFollowers = (arr:string[]) => {
-    const sorted = arr.sort()
-    return sorted[0][1]
+    // const sortDeFormated = (a, b) => {
+    // // console.log("TEST sortDeFormated", deFormat(a[0]), deFormat(b[0]), deFormat(a[0]) > deFormat(b[0]))
+    //   return deFormat(a[0]) - deFormat(b[0])
+    // }
+    const sorted = arr.sort((a, b) => deFormat(a[0]) - deFormat(b[0]))
+    console.log("TEST sorted", sorted)
+    return `${sorted.at(-1)[1]}: ${sorted.at(-1)[0]}`
    }
 
   return (
