@@ -12,8 +12,6 @@ const { data, error } = useSWR('/api/influencers', fetcher)
   if (error) return <div>Failed to load</div>
   if (!data) return <div>Loading...</div>
 
-  // console.log("TEST", data.data)
-
   type Influencer = {
     "Influencer insta name": string,
     "instagram name": string,
@@ -25,40 +23,42 @@ const { data, error } = useSWR('/api/influencers', fetcher)
     "Engagement avg\r\n": string
 }
 
-  const groupedByCategory = (arr: Array<Influencer>) => {
+  const groupByCategory = (arr: Array<Influencer>) => {
     let categoriesObj: Record<string, any> = {}
     for (let entry of arr) {
       const categoryName = entry["category_1"];
       const instagramName = entry["instagram name"]
       const followers = entry["Followers"]
-      const influencerObj = {
-        instagramName,
-        followers
-      }
+      
       if (!categoriesObj.hasOwnProperty(categoryName)) {
         categoriesObj[categoryName] = {}
       }
       categoriesObj[categoryName] = {...categoriesObj[categoryName], [followers]: instagramName}
       
     }
-    const categoriesArray = Object.entries(categoriesObj)
+    const categoriesArray = Object.entries(categoriesObj).map((entry) => [entry[0], Object.entries(entry[1]).sort()])
     const alphabetical = categoriesArray.sort((a, b) => a[0].localeCompare(b[0]));
     // console.log("TEST alphabetical", alphabetical)
-
     return alphabetical
    }
     
-   const categoriesObj = groupedByCategory(data.data)
+   const categoriesObj = groupByCategory(data.data)
     // console.log("TEST categoriesObj", categoriesObj)
 
 
-  //  const topByCategory = (arr) => { 
-  //   let categories = []
-  //   for (let entry of arr) {
-
+  //  const sortByFollowers = (arr:string[]) => {
+  //    let sorted = []
+  //    for (let category of arr) {
+  //     const byFollowers = category[1].sort((a, b) => a[0].localeCompare(b[0]));}
+  //     sorted.push([category[1], byFollowers])
+  //    }
+  //   return sorted
   //   }
 
-  //   }
+  const topByFollowers = (arr:string[]) => {
+    const sorted = arr.sort()
+    return sorted[0][1]
+   }
 
   return (
     <div className={styles.container}>
@@ -78,7 +78,12 @@ const { data, error } = useSWR('/api/influencers', fetcher)
       <h2 className={styles.title}>
           #1 top influencers per category, by followers
         </h2>
-        {}
+        {categoriesObj.map((category, i) => (
+          <div key={i} className={styles.entry}>
+            <h4>{category[0]}</h4>
+            <h5>{topByFollowers(category[1])}</h5>
+          </div>
+        ))}
 </div>
 <div className={styles.card}>
 <h2 className={styles.title}>
