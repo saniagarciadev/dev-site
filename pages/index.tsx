@@ -8,7 +8,7 @@ const fetcher = (url: String) => fetch(url.toString()).then((res) => res.json())
 
 const Home: NextPage = () => {
   
-const { data, error } = useSWR('/api/hello', fetcher)
+const { data, error } = useSWR('/api/influencers', fetcher)
 
   if (error) return <div>Failed to load</div>
   if (!data) return <div>Loading...</div>
