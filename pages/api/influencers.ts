@@ -24,9 +24,9 @@ const handler = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
-  const csvData = await readCSV(csvFilePath); 
+  const parsed = await readCSV(csvFilePath); 
 
-  res.status(200).json(csvData)
+  res.status(200).json(parsed)
 }
 
 export default handler;

@@ -12,8 +12,41 @@ const { data, error } = useSWR('/api/influencers', fetcher)
   if (error) return <div>Failed to load</div>
   if (!data) return <div>Loading...</div>
 
-  console.log("TEST", data)
+  // console.log("TEST", data.data)
+
+  type Influencer = {
+    "Influencer insta name": string,
+    "instagram name": string,
+    "category_1": string,
+    "category_2": string,
+    "Followers": string,
+    "Audience country(mostly)": string,
+    "Authentic engagement\r\n": string,
+    "Engagement avg\r\n": string
+}
+
+  const topByCategory = (arr: Array<Influencer>) => {
+    let arranged: Record<string, any> = {}  
+    const sorted = arr.sort((a: Influencer, b: Influencer) => a["Influencer insta name"]	.localeCompare(b["Influencer insta name"]));
+    for (let entry of sorted) {
+      const categoryName = entry["category_1"];
+      const instagramName = entry["instagram name"]
+      const followers = entry["Followers"]
+      const influencerObj = {
+        instagramName,
+        followers
+      }
+      if (!arranged.hasOwnProperty(categoryName)) {
+        arranged[categoryName] = {}
+      }
+      arranged[categoryName] = {...arranged[categoryName], influencerObj}
+      
+    }
+    // const categoryOnly = sorted.map((entry: Influencer) => {return entry["Influencer insta name"]})
+    console.log("TEST sorted", arranged)
+   }
     
+   topByCategory(data.data)
 
   return (
     <div className={styles.container}>
