@@ -1,34 +1,32 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Instructions
 
-## Getting Started
-
-First, run the development server:
-
+1:
 ```bash
 npm run dev
-# or
-yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2:
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Some choices I made
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+I went with a two column layout becaused I could see that the lists would be long and it'd be awkward to ask the visitor to scroll so far down.
 
-## Learn More
+I chose to display the lists alphabetically by group, because it seemed like the most natural way.
 
-To learn more about Next.js, take a look at the following resources:
+I refrained from adding any interactivity to avoid extending the time too much.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+I didn't expect NextJS to offer particular benefits over plain React, which is what I know best, but I saw it's part of the stack at Beyond so I thought it was a good chance to check it out, and I saw that it had an interesting and relatively easy way of creating an API that would serve the purpose of this challenge well. Turned out to be a headache in some cases (hi, dealing with local files), but I'm glad I got a little NextJS workshop out of this.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+It was also the first time I used Typescript, and that definitely hindered my progress at times, so I decided to strive to get the "product" out the door without worrying as much about code quality as I would've under less constrained circumstances.
 
-## Deploy on Vercel
+I recycled some of the styling included in the placeholder NextJS app because it allowed me to add a pleasant design without spending time on it.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## To be improved
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+I would deal with a handful of Typescript warnings that I decided to ignore.
+
+I would go through the code again to make it more efficient, clean and readable. Maybe add some tests if it made sense.
+
+I would add some basic interactivity such as being able to see the ranking for each group of influencers, having links to their social media profiles, etc.
