@@ -43,26 +43,32 @@ const { data, error } = useSWR('/api/influencers', fetcher)
     return alphabetical
    }
     
-   const categoriesObj = groupByCategory(data.data)
-    console.log("TEST deFormat('12.9K')", deFormat('12.9K'), deFormat('12.9M'))
+   const categoriesArray = groupByCategory(data.data)
 
+   const groupByCountry = (arr: Array<Influencer>) => {
+    let categoriesObj: Record<string, any> = {}
+    for (let entry of arr) {
+    console.log("TEST entry", entry)
+      const country = entry["Audience country(mostly)"];
+      const instagramName = entry["instagram name"]
+      const engagement = entry["Engagement avg\r\n"]
+      
+      if (!categoriesObj.hasOwnProperty(country)) {
+        categoriesObj[country] = {}
+      }
+      categoriesObj[country] = {...categoriesObj[country], [engagement]: instagramName}
+      
+    }
+    const categoriesArray = Object.entries(categoriesObj).map((entry) => [entry[0], Object.entries(entry[1]).sort()])
+    const alphabetical = categoriesArray.sort((a, b) => a[0].localeCompare(b[0]));
+    return alphabetical
+   }
 
-  //  const sortByFollowers = (arr:string[]) => {
-  //    let sorted = []
-  //    for (let category of arr) {
-  //     const byFollowers = category[1].sort((a, b) => a[0].localeCompare(b[0]));}
-  //     sorted.push([category[1], byFollowers])
-  //    }
-  //   return sorted
-  //   }
+   const countriesArray = groupByCountry(data.data)
 
-  const topByFollowers = (arr:string[]) => {
-    // const sortDeFormated = (a, b) => {
-    // // console.log("TEST sortDeFormated", deFormat(a[0]), deFormat(b[0]), deFormat(a[0]) > deFormat(b[0]))
-    //   return deFormat(a[0]) - deFormat(b[0])
-    // }
+   const topInfluencer = (arr:string[]) => {
     const sorted = arr.sort((a, b) => deFormat(a[0]) - deFormat(b[0]))
-    console.log("TEST sorted", sorted)
+    // console.log("TEST sorted", sorted)
     return `${sorted.at(-1)[1]}: ${sorted.at(-1)[0]}`
    }
 
@@ -84,16 +90,22 @@ const { data, error } = useSWR('/api/influencers', fetcher)
       <h2 className={styles.title}>
           #1 top influencers per category, by followers
         </h2>
-        {categoriesObj.map((category, i) => (
+        {categoriesArray.map((category, i) => (
           <div key={i} className={styles.entry}>
             <h4>{category[0]}</h4>
-            <h5>{topByFollowers(category[1])}</h5>
+            <h5>{topInfluencer(category[1])}</h5>
           </div>
         ))}
 </div>
 <div className={styles.card}>
 <h2 className={styles.title}>
 #1 top influencers per country, by engagement avg        </h2>
+{countriesArray.map((category, i) => (
+          <div key={i} className={styles.entry}>
+            <h4>{category[0]}</h4>
+            <h5>{topInfluencer(category[1])}</h5>
+          </div>
+        ))}
 </div>
 </div>
             </main>
