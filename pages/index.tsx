@@ -25,10 +25,9 @@ const { data, error } = useSWR('/api/influencers', fetcher)
     "Engagement avg\r\n": string
 }
 
-  const topByCategory = (arr: Array<Influencer>) => {
-    let arranged: Record<string, any> = {}  
-    const sorted = arr.sort((a: Influencer, b: Influencer) => a["Influencer insta name"]	.localeCompare(b["Influencer insta name"]));
-    for (let entry of sorted) {
+  const groupedByCategory = (arr: Array<Influencer>) => {
+    let categoriesObj: Record<string, any> = {}
+    for (let entry of arr) {
       const categoryName = entry["category_1"];
       const instagramName = entry["instagram name"]
       const followers = entry["Followers"]
@@ -36,17 +35,30 @@ const { data, error } = useSWR('/api/influencers', fetcher)
         instagramName,
         followers
       }
-      if (!arranged.hasOwnProperty(categoryName)) {
-        arranged[categoryName] = {}
+      if (!categoriesObj.hasOwnProperty(categoryName)) {
+        categoriesObj[categoryName] = {}
       }
-      arranged[categoryName] = {...arranged[categoryName], influencerObj}
+      categoriesObj[categoryName] = {...categoriesObj[categoryName], [followers]: instagramName}
       
     }
-    // const categoryOnly = sorted.map((entry: Influencer) => {return entry["Influencer insta name"]})
-    console.log("TEST sorted", arranged)
+    const categoriesArray = Object.entries(categoriesObj)
+    const alphabetical = categoriesArray.sort((a, b) => a[0].localeCompare(b[0]));
+    // console.log("TEST alphabetical", alphabetical)
+
+    return alphabetical
    }
     
-   topByCategory(data.data)
+   const categoriesObj = groupedByCategory(data.data)
+    // console.log("TEST categoriesObj", categoriesObj)
+
+
+  //  const topByCategory = (arr) => { 
+  //   let categories = []
+  //   for (let entry of arr) {
+
+  //   }
+
+  //   }
 
   return (
     <div className={styles.container}>
@@ -66,6 +78,7 @@ const { data, error } = useSWR('/api/influencers', fetcher)
       <h2 className={styles.title}>
           #1 top influencers per category, by followers
         </h2>
+        {}
 </div>
 <div className={styles.card}>
 <h2 className={styles.title}>
