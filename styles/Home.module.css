@@ -72,11 +72,13 @@
 }
 
 .grid {
+  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   justify-content: center;
   flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 
 .card {
