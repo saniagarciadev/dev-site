@@ -78,43 +78,23 @@ const { data, error } = useSWR('/api/influencers', fetcher)
       </Head>
 <header className={styles.header}>
   <h1>
-  Influencer data
+  Dev site
   </h1>
 </header>
       <main className={styles.main}>
       <div className={styles.grid}>
-      <div className={styles.card}>
-      <h2 className={styles.title}>
-          #1 top influencers per category, by followers
-        </h2>
-        {categoriesArray.map((category, i) => (
-          <div key={i} className={styles.entry}>
-            <h4>{category[0]}</h4>
-            <h5>{topInfluencer(category[1])}</h5>
-          </div>
-        ))}
-</div>
-<div className={styles.card}>
-<h2 className={styles.title}>
-#1 top influencers per country, by engagement avg        </h2>
-{countriesArray.map((category, i) => (
-          <div key={i} className={styles.entry}>
-            <h4>{category[0]}</h4>
-            <h5>{topInfluencer(category[1])}</h5>
-          </div>
-        ))}
-</div>
-</div>
-            </main>
-
-      <footer className={styles.footer}>
-        <a
+      <a
           href="https://twitter.com/saniagarciadev"
           target="_blank"
           rel="noopener noreferrer"
         >
           Sania García
         </a>
+</div>
+            </main>
+
+      <footer className={styles.footer}>
+        footer
       </footer>
     </div>
   )
